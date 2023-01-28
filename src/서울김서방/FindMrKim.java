@@ -11,13 +11,11 @@ public class FindMrKim {
 class Solution {
     public String solution(String[] seoul) {
         int tmp = 0;
-        for (String str : seoul) {
-            if (str == "Kim") {
+        for (int i = 0; i < seoul.length; i++) {
+            if (seoul[i].equals("Kim")) {
+                tmp = i;
                 break;
-            } else {
-                tmp++;
             }
-
         }
         return "김서방은 " + tmp + "에 있다";
     }
