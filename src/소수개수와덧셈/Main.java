@@ -1,7 +1,5 @@
 package 소수개수와덧셈;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class Main {
     public String solution(String s) {
@@ -48,3 +46,6 @@ public class Main {
         System.out.println(method.solution(s));
     }
 }
+
+//5585
+//8958
