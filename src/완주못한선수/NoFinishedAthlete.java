@@ -5,8 +5,8 @@ import java.util.*;
 public class NoFinishedAthlete {
     public static void main(String[] args) {
         Solution s = new Solution();
-        String[] participant = {"mislav", "stanko", "mislav", "ana"};
-        String[] completion = {"stanko", "ana","mislav"};
+        String[] participant = {"leo", "kiki", "eden"};
+        String[] completion = {"eden", "kiki"};
         System.out.println(s.solution(participant, completion));
     }
 }
@@ -14,13 +14,19 @@ public class NoFinishedAthlete {
 class Solution {
     public String solution(String[] participant, String[] completion) {
 
-        ArrayList<String> noFinished = new ArrayList<>(Arrays.asList(participant));
-        for (String s : completion) {
-            noFinished.remove(s);
+        String answer = "";
+        Arrays.sort(participant);
+        Arrays.sort(completion);
+        for (int i = 0; i < completion.length; i++) {
+            if (!participant[i].equals(completion[i])) {
+                answer = participant[i];
+                break;
+            }
         }
-
-
-
-        return noFinished.toString().replace('[', ' ').replace(']', ' ').trim();
+        if (answer.length() == 0) {
+            answer = participant[participant.length-1];
+        }
+        return answer;
     }
 }
+

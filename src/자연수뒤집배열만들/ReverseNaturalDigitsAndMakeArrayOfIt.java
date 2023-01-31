@@ -1,9 +1,8 @@
 package 자연수뒤집배열만들;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ReverseNaturalDIgitsAndMakeArrayOfIt {
+public class ReverseNaturalDigitsAndMakeArrayOfIt {
     public static void main(String[] args) {
         Solution s = new Solution();
         long n = 12345;
