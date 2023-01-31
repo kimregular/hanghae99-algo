@@ -4,7 +4,6 @@ public class Main {
     public int solution(int[] arr1, int[] arr2) {
         int answer = 0;
         int tmp = 0;
-//        System.out.println(12+16+22+21+15+15+21);
 
         for (int i = 0; i < arr1.length; i++) {
             if (arr2[i] >= 29) {
