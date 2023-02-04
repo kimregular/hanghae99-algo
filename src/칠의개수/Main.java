@@ -3,7 +3,7 @@ package 칠의개수;
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
-        int[] array = {10, 29};
+        int[] array = {777};
         System.out.println(s.solution(array));
     }
 }
