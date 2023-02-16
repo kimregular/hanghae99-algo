@@ -7,6 +7,7 @@ public class XDiffer {
         int n = 5;
         System.out.println(s.solution(x, n));
     }
+    // 헬ㄹ레레레레레레레ㅔ
 }
 
 class Solution {
