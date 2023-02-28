@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         String[] s1 = {"a", "b", "c"};
-        String[] s2 = {"com", "b", "d", "p", "c"};
+        String[] s2 = {"com", "b", "d", "p1260", "c"};
         System.out.println(s.solution(s1, s2));
     }
 }

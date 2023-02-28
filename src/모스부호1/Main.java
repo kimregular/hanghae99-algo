@@ -1,7 +1,5 @@
 package 모스부호1;
 
-import java.util.HashMap;
-
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
@@ -13,7 +11,7 @@ public class Main {
 class Solution {
     public String solution(String letter) {
         String[] morse = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
-        String[] alph = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+        String[] alph = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o", "p1260","q","r","s","t","u","v","w","x","y","z"};
         String answer = "";
 
         for (String str : letter.split(" ")) {
