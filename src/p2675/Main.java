@@ -26,7 +26,7 @@ public class Main {
                     System.out.print(c);
                 }
             }
-                System.out.println();
+            System.out.println();
         }
 
         br.close();
