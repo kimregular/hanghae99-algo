@@ -32,7 +32,7 @@ public class Main {
             for (List<String> letter : letters) {
                 try {
                     System.out.print(letter.get(i));
-                } catch (ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException ignored) {
                 }
             }
 
