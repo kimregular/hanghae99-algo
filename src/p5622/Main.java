@@ -10,6 +10,7 @@ public class Main {
     static String[] st;
 
     static int tmp = 0;
+    // test
 
     static int time = 0;
     static List<List<String>> lst = List.of(
