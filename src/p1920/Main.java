@@ -17,8 +17,8 @@ public class Main {
     static Map<String, Integer> map;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src/p1920/text.txt"));
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedReader br = new BufferedReader(new FileReader("src/p1920/text.txt"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         arrLen = Integer.parseInt(br.readLine());
         arr = br.readLine().split(" ");
 
@@ -31,7 +31,7 @@ public class Main {
 
         for (String s : arr) {
             if (map.containsKey(s)) {
-                map.put(s, map.get(s) + 1);
+                map.put(s, 1);
             }
         }
         for (Integer value : map.values()) {
