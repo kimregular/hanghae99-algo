@@ -7,6 +7,20 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
 public class Main {
+    public static void main(String[] args) throws IOException {
+//        BufferedReader br = new BufferedReader(new FileReader("src/p4344/text.txt"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            String[] st = br.readLine().split(" ");
+            mean = getMean(st);
+            ratio = getRatio(st, mean);
+            System.out.println(getThree(ratio)+"%");
+        }
+
+        br.close();
+    }
+
     static int num;
 
     static int mean;
@@ -39,19 +53,5 @@ public class Main {
     static String getThree(double number) {
         DecimalFormat df = new DecimalFormat("0.000");
         return df.format(number);
-    }
-
-    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new FileReader("src/p4344/text.txt"));
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        num = Integer.parseInt(br.readLine());
-        for (int i = 0; i < num; i++) {
-            String[] st = br.readLine().split(" ");
-            mean = getMean(st);
-            ratio = getRatio(st, mean);
-            System.out.println(getThree(ratio)+"%");
-        }
-
-        br.close();
     }
 }
