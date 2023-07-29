@@ -15,13 +15,16 @@ public class Main {
                 arr[Integer.parseInt(br.readLine())] += 1;
             }
 
+            StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i] > 0) {
                     for (int j = 0; j < arr[i]; j++) {
-                        System.out.println(i);
+                        sb.append(i).append("\n");
                     }
                 }
             }
+            System.out.println(sb);
         }
     }
 }
