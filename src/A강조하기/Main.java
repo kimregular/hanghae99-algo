@@ -8,7 +8,7 @@ public class Main {
         String str = "PrOgRaMmErS";
         Solution s = new Solution();
 
-        System.out.println(s.solution(str));
+        System.out.println(s.solution(str)); // test commit
     }
 }
 
