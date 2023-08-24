@@ -34,6 +34,6 @@ class Solution {
         answer += n - g >= 0 ? g : n;
         answer += n - y >= 0 ? y : n;
 
-        return answer;
+        return answer; // 토큰 확인
     }
 }
