@@ -39,7 +39,7 @@ class Solution {
 
     private int getDifference(int[] common) {
         return common[common.length - 1] +  common[common.length - 1] - common[common.length - 2];
-    }
+    } // token regenerated
 
     private int getRatio(int[] common) {
         return common[common.length - 1] * (common[1] / common[0]);
