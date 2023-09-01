@@ -37,8 +37,8 @@ class Solution {
                         if (j <= b) {
                             if (k <= c) {
                                 int x = i % j;
-                                int y = i % k;
-                                int z = j % k;
+                                int y = j % k;
+                                int z = k % i;
                                 if (x == y && y == z && x == z) {
                                     answer++;
                                 }
