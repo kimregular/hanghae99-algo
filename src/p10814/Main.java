@@ -22,9 +22,7 @@ public class Main {
                 arr[i] = new PersonInfo(age, name);
             }
 
-            Arrays.sort(arr, (Comparator<PersonInfo>) (o1, o2) -> {
-                return o1.age - o2.age;
-            });
+            Arrays.sort(arr, Comparator.comparingInt(o -> o.age));
 
             for (PersonInfo personInfo : arr) {
                 System.out.println(personInfo.age + " " + personInfo.name);
