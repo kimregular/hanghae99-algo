@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             int TEST_CASE = Integer.parseInt(br.readLine());
-            Solution s = new Solution();
 
             StringTokenizer st;
 
@@ -20,6 +19,7 @@ public class Main {
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 int c = Integer.parseInt(st.nextToken());
+                Solution s = new Solution(a, b, c);
                 MAX_PRICE = Math.max(MAX_PRICE, s.solution(a, b, c));
             }
 
@@ -33,20 +33,23 @@ public class Main {
 
 class Solution {
 
+    int a;
+    int b;
+    int c;
 
+    public Solution(int a, int b, int c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
 
     public int solution(int a, int b, int c) {
         if (a == b && b == c) {
             return 10000 + (a * 1000);
-        } else if (a == b) {
-            return 1000 + (a * 100);
-        } else if (a == c) {
-            return 1000 + (a * 100);
-        } else if (b == c) {
-            return 1000 + (b * 100);
+        } else if (a == b || a == c || b == c) {
+            return 1000 + (Math.max(Math.max(a, b), c) * 100);
         } else {
-            int result = Math.max(a, b);
-            return Math.max(result, c) * 100;
+            return Math.max(Math.max(a, b), c) * 100;
         }
     }
 }
