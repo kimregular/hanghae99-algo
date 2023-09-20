@@ -1,44 +1,64 @@
 package p1920;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class Main {
-
-    static int arrLen;
-    static String[] arr;
-
-    static int num;
-    static Map<String, Integer> map;
-
     public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new FileReader("src/p1920/text.txt"));
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        arrLen = Integer.parseInt(br.readLine());
-        arr = br.readLine().split(" ");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            int N = Integer.parseInt(br.readLine());
 
-        num = Integer.parseInt(br.readLine());
-        map = new LinkedHashMap<>();
-        String[] tmp = br.readLine().split(" ");
-        for (String s : tmp) {
-            map.put(s, 0);
-        }
-
-        for (String s : arr) {
-            if (map.containsKey(s)) {
-                map.put(s, 1);
+            int[] arr = new int[N];
+            StringTokenizer aSt = new StringTokenizer(br.readLine());
+            for (int i = 0; i < N; i++) {
+                arr[i] = Integer.parseInt(aSt.nextToken());
             }
+
+            int M = Integer.parseInt(br.readLine());
+            int[] brr = new int[M];
+            StringTokenizer bSt = new StringTokenizer(br.readLine(), " ");
+            for (int i = 0; i < M; i++) {
+                brr[i] = Integer.parseInt(bSt.nextToken());
+            }
+
+            Solution s = new Solution(arr, brr);
+            System.out.println(s.solution());
+
         }
-        for (Integer value : map.values()) {
-            System.out.println(value);
+    }
+}
+
+class Solution {
+
+    int[] arr;
+    int[] brr;
+
+    public Solution(int[] arr, int[] brr) {
+        this.arr = arr;
+        this.brr = brr;
+    }
+
+    public String solution() {
+        Set<Integer> set = new HashSet<>();
+        for (int i : arr) {
+            set.add(i);
         }
 
+        StringBuilder sb = new StringBuilder();
 
-        br.close();
+        for (int i : brr) {
+            if (set.contains(i)) {
+                sb.append(1);
+            } else {
+                sb.append(0);
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 }
