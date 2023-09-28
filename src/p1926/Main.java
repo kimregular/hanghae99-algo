@@ -50,7 +50,7 @@ class Solution{
                 if(board[i][j] == 1){
                     board[i][j] = 0;
                     numOfPictures++;
-                    maxSize = Math.max(maxSize, DFS(i, j));
+                    maxSize = Math.max(maxSize, BFS(i, j));
                 }
             }
         }
@@ -58,7 +58,7 @@ class Solution{
         return new int[] {numOfPictures, maxSize};
     }
 
-    private int DFS(int x, int y){
+    private int BFS(int x, int y){
         Queue<Point> q = new LinkedList<>();
         q.offer(new Point(x, y));
         int cnt = 1; // BFS 가 실행될 때 이미 그림 1칸을 차지한다.
