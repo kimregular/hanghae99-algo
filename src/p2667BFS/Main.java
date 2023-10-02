@@ -1,4 +1,4 @@
-package p2667;
+package p2667BFS;
 
 import java.io.*;
 import java.util.*;

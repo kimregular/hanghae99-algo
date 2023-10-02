@@ -1,4 +1,4 @@
-package p1926;
+package p1926BFS;
 
 import java.io.*;
 import java.util.*;
