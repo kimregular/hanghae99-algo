@@ -1,4 +1,4 @@
-package p2606;
+package p2606DFS;
 
 import java.io.*;
 import java.util.*;

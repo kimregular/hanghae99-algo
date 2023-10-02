@@ -1,4 +1,4 @@
-package p11724;
+package p11724DFS;
 
 import java.io.*;
 import java.util.*;

@@ -1,4 +1,4 @@
-package p10026;
+package p10026BFS;
 
 import java.io.*;
 import java.util.*;
