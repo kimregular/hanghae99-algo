@@ -89,8 +89,8 @@ class SafeAreaFinder {
         Queue<Point> q = new LinkedList<>();
         q.offer(new Point(x, y));
 
-        int len = q.size();
         while (!q.isEmpty()) {
+            int len = q.size();
             for (int i = 0; i < len; i++) {
                 Point tmp = q.poll();
                 for (int j = 0; j < 4; j++) {
