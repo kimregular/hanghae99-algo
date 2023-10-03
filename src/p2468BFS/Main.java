@@ -50,8 +50,7 @@ class SafeAreaFinder {
     public int getMaxNumOfSafeArea() {
         for (int level : rainLevels) {
             this.calculatedMaps = createCaculatedMaps(level);
-            int tmp = getNumOfSafeAreas();
-            maxNumOfSafeAreas = Math.max(maxNumOfSafeAreas, tmp);
+            maxNumOfSafeAreas = Math.max(maxNumOfSafeAreas, getNumOfSafeAreas());
         }
 
         return maxNumOfSafeAreas == 0 ? 1 : maxNumOfSafeAreas;
