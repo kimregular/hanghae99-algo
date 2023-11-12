@@ -1,4 +1,4 @@
-package p5237DFS;
+package p5237BFS;
 
 import java.io.*;
 import java.util.*;
@@ -38,36 +38,44 @@ public class Main {
 class GraphExplorer {
 
     ArrayList<ArrayList<Integer>> graph;
-    boolean[] isVisited;
-    public GraphExplorer(int numOfSites) {
+
+    boolean[] isConnected;
+    public GraphExplorer(int numOfNodes) {
         this.graph = new ArrayList<>();
-        for (int j = 0; j < numOfSites; j++) {
-            this.graph.add(new ArrayList<>());
+        for (int i = 0; i < numOfNodes; i++) {
+            graph.add(new ArrayList<>());
         }
-        this.isVisited = new boolean[numOfSites];
-    }
-    public void connectSite(int x, int y) {
-        graph.get(x).add(y);
-        graph.get(y).add(x);
+        this.isConnected = new boolean[numOfNodes];
     }
 
+    public void connectSite(int x, int y) {
+        this.graph.get(x).add(y);
+        this.graph.get(y).add(x);
+    }
 
     public boolean isAllConnected() {
-        checkConnections(0);
-
-        for (boolean v : isVisited) {
-            if (!v) {
+        checkConnection();
+        for (int i = 0; i < isConnected.length; i++) {
+            if (!isConnected[i]) {
                 return false;
             }
         }
         return true;
     }
 
-    private void checkConnections(int site) {
-        isVisited[site] = true;
-        for (Integer nextSite : graph.get(site)) {
-            if (!isVisited[nextSite]) {
-                checkConnections(nextSite);
+    private void checkConnection() {
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(0);
+        isConnected[0] = true;
+
+        while (!q.isEmpty()) {
+            int currentSite = q.poll();
+
+            for (Integer neighborSite : graph.get(currentSite)) {
+                if (!isConnected[neighborSite]) {
+                    isConnected[neighborSite] = true;
+                    q.offer(neighborSite);
+                }
             }
         }
     }
