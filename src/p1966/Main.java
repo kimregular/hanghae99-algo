@@ -19,7 +19,7 @@ public class Main {
                     int priority = Integer.parseInt(st.nextToken());
 
                     Paper tmpPaper = new Paper(priority, order);
-                    q.offer(tmpPaper);
+                    q.add(tmpPaper);
                 }
                 PrintQueue pq = new PrintQueue(q, paperOfInterest);
                 System.out.println(pq.getOrder());
@@ -42,33 +42,28 @@ class PrintQueue {
 
     public int getOrder() {
         int count = 0;
-        while (!q.isEmpty()) {
-            Paper currentPaper = q.poll();
-            boolean isMax = true;
+        while (!this.q.isEmpty()) {
+            Paper currentPaper = this.q.removeFirst();
 
-            for (int i = 0; i < this.q.size(); i++) {
-                Paper tmpPaper = this.q.get(i);
-                if (currentPaper.priority < tmpPaper.priority) {
-
-                    this.q.offer(currentPaper);
-                    for (int j = 0; j < i; j++) {
-                        this.q.offer(q.poll());
-                    }
-
-                    isMax = false;
-                    break;
-                }
-            }
-            if (isMax) {
+            if (hasHigherPriorityPaper(currentPaper)) {
+                this.q.addLast(currentPaper);
+            } else {
                 count++;
                 if (currentPaper.order == this.paperOfInterest) {
                     break;
                 }
-            } else {
-                continue;
             }
         }
         return count;
+    }
+
+    private boolean hasHigherPriorityPaper(Paper currentPaper) {
+        for (Paper otherPaper : this.q) {
+            if (currentPaper.priority < otherPaper.priority) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
