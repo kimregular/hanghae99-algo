@@ -39,23 +39,25 @@ class PercolateDeterminer {
     public String isPercolatable() {
         for (int i = 0; i < this.fabric.getX(); i++) {
             boolean[][] isPercolated = new boolean[this.fabric.getX()][this.fabric.getY()];
-            DFS(0, i, isPercolated);
-            if(percolationCheck(isPercolated)) return "YES";
+            if (this.fabric.getFabric()[0][i] == 0) {
+                DFS(0, i, isPercolated);
+                if(percolationCheck(isPercolated)) return "YES";
+            }
         }
         return "NO";
     }
 
     private void DFS(int x, int y, boolean[][] isPercolated) {
         isPercolated[x][y] = true;
+        if(x == this.fabric.getX() - 1) return;
         for (int[] direct : this.directions) {
             int nx = x + direct[0];
             int ny = y + direct[1];
 
-            if (isWithinFabric(nx, ny) && !isPercolated[nx][ny]) {
+            if (isWithinFabric(nx, ny) && this.fabric.getFabric()[nx][ny] == 0 && !isPercolated[nx][ny]) {
                 DFS(nx, ny, isPercolated);
             }
         }
-        isPercolated[x][y] = false;
     }
 
     private boolean isWithinFabric(int x, int y) {
@@ -92,5 +94,9 @@ class Fabric {
 
     public void setValue(int x, int y, int value) {
         this.fabric[x][y] = value;
+    }
+
+    public int[][] getFabric() {
+        return this.fabric;
     }
 }
