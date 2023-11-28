@@ -34,7 +34,7 @@ class PathFinder {
     boolean[] isVisited = new boolean[26];
     int[] dx = {0, 1, 0, -1};
     int[] dy = {1, 0, -1, 0};
-    int maxNumOfSteps = 0;
+    int maxNumOfSteps = 1;
 
     public PathFinder(char[][] board) {
         this.board = board;
