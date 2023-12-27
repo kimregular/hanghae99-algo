@@ -65,6 +65,9 @@ class Solution {
     public void connectUnion(int islandA, int islandB) {
         int iA = findConnection(islandA);
         int iB = findConnection(islandB);
-        if(iA != iB) this.connection[iA] = iB;
+        if (iA != iB) {
+            this.connection[Math.max(iA, iB)] = Math.min(iA, iB);
+        }
+
     }
 }
