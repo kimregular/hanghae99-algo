@@ -31,7 +31,6 @@ class Solution {
 
     public double solution(char[] postfix, double[] nums) {
         Stack<Double> numStck = new Stack<>();
-        Stack<Character> operStck = new Stack<>();
 
         for (char x : postfix) {
             if ('A' <= x && x <= 'Z') {
@@ -46,17 +45,13 @@ class Solution {
     }
 
     private double operation(double num1, double num2, char oper) {
-        switch (oper) {
-            case '+':
-                return num1 + num2;
-            case '-':
-                return num1 - num2;
-            case '*':
-                return num1 * num2;
-            case '/':
-                return num1 / num2;
-        }
-        return 0;
+        return switch (oper) {
+            case '+' -> num1 + num2;
+            case '-' -> num1 - num2;
+            case '*' -> num1 * num2;
+            case '/' -> num1 / num2;
+            default -> 0;
+        };
     }
 
 }
