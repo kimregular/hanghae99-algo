@@ -53,7 +53,7 @@ class Solution {
         ScoreWithIndex[] si = new ScoreWithIndex[scores.length];
 
         for (int i = 0; i < scores.length; i++) {
-            si[i] = new ScoreWithIndex(scores[i], i+1);
+            si[i] = new ScoreWithIndex(scores[i], i + 1);
         }
         Arrays.sort(si);
         return si;
