@@ -21,7 +21,7 @@ public class Main {
     private static int[] getInput(BufferedReader br) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         int len = Integer.parseInt(st.nextToken());
-        int colors = Integer.parseInt(st.nextToken());
+        int colors = Integer.parseInt(st.nextToken()); // 해당 변수는 필요 없음
         int[] arr = new int[len];
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < arr.length; i++) {
