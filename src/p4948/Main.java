@@ -24,15 +24,15 @@ public class Main {
 
 class Solution{
 
-    int[] field = new int[123_457 * 2];
+    boolean[] field = new boolean[123_457 * 2];
 
     StringBuilder answer = new StringBuilder();
 
     public Solution() {
         for (int i = 2; i < field.length; i++) {
-            if (field[i] == 0) {
+            if (!field[i]) {
                 for (int j = i + i; j < field.length; j += i) {
-                    field[j] = 1;
+                    field[j] = true;
                 }
             }
         }
@@ -41,7 +41,7 @@ class Solution{
     public void getPrimeNums(int target) {
         int result = 0;
         for (int i = target + 1; i <= target * 2; i++) {
-            if (field[i] == 0) result++;
+            if (!field[i]) result++;
         }
         this.answer.append(result).append("\n");
     }
