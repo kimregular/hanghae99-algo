@@ -30,41 +30,34 @@ public class Main {
 class Solution {
 
     public String solution(Paper paper) {
-        Calculator c = new Calculator(paper);
-        return c.getResult();
+        Calculator c = new Calculator();
+        return c.getResult(paper);
     }
 
     private class Calculator{
 
-        Paper paper;
         int numOfWhiteOnes = 0;
         int numOfBlueOnes = 0;
-        List<Paper> paperStack = new ArrayList<>();
         StringBuilder result = new StringBuilder();
 
-        public Calculator(Paper paper) {
-            this.paper = paper;
+        public Calculator() {
         }
 
-        public String getResult() {
+        public String getResult(Paper paper) {
             calc(paper);
             return result.append(numOfWhiteOnes).append("\n").append(numOfBlueOnes).toString();
         }
 
         private void calc(Paper paper) {
-            paperStack.add(paper);
-
-            while (!paperStack.isEmpty()) {
-                Paper currentPaper = paperStack.remove(0);
-
-                if (currentPaper.isPurePaper()) {
-                    if (currentPaper.isWhite()) {
-                        numOfWhiteOnes++;
-                    } else {
-                        numOfBlueOnes++;
-                    }
+            if (paper.isPurePaper()) {
+                if (paper.isWhite()) {
+                    numOfWhiteOnes++;
                 } else {
-                    paperStack.addAll(cutPaper(currentPaper));
+                    numOfBlueOnes++;
+                }
+            } else {
+                for (Paper newPaper : cutPaper(paper)) {
+                    calc(newPaper);
                 }
             }
         }
