@@ -59,7 +59,6 @@ class Solution {
         public Calculator(List<List<Integer>> network) {
             this.network = network;
             this.distance = new int[network.size()];
-            Arrays.fill(distance, 50_001);
             this.isVisited = new boolean[network.size()];
         }
 
@@ -97,7 +96,7 @@ class Solution {
                 Barn currentBarn = q.poll();
                 int currentLocation = currentBarn.location;
                 int currentDistance = currentBarn.distance;
-                distance[currentLocation] = Math.min(distance[currentLocation], currentDistance);
+                distance[currentLocation] = currentDistance;
 
                 for (int nextBarn : network.get(currentLocation)) {
                     if(isVisited[nextBarn]) continue;
