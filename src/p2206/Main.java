@@ -6,109 +6,109 @@ import java.util.*;
 public class Main {
     public static void main(String[] args){
         try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-            int n = Integer.parseInt(st.nextToken());
-            int m = Integer.parseInt(st.nextToken());
-
-            int[][] maps = new int[n][m];
-
-            for(int i = 0; i < n; i++){
-                String[] tokens = br.readLine().split("");
-                for(int j = 0; j < m; j++){
-                    maps[i][j] = Integer.parseInt(tokens[j]);
-                }
-            }
-
-            PathFinder pf = new PathFinder(maps);
-            pf.getLengthOfShortestPath();
-            System.out.println(pf.getShortestPath());
-
-
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
 
         }catch(IOException e){
             throw new RuntimeException(e);
         }
     }
+
+    private static int[][] getInput(BufferedReader br) throws IOException {
+        int[] tokens = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int[][] board = new int[tokens[0]][tokens[1]];
+        for (int i = 0; i < board.length; i++) {
+            board[i] = Arrays.stream(br.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+        }
+        return board;
+    }
 }
 
-class PathFinder{
+class Solution {
 
-    int[][] maps;
-    int[] dx = {0, 1, 0, -1};
-    int[] dy = {1, 0, -1, 0};
-    int shortestPath = Integer.MAX_VALUE;
-
-    public int getShortestPath(){
-        return this.shortestPath == Integer.MAX_VALUE ? -1 : this.shortestPath;
+    public int solution(int[][] board) {
+        Calculator c = new Calculator(board);
+        return c.getResult();
     }
 
-    public PathFinder(int[][] maps){
-        this.maps = maps;
-    }
+    private class Calculator {
 
-    public void getLengthOfShortestPath(){
-        for(int i = 0; i < maps.length; i++){
-            for(int j = 0; j < maps[i].length; j++){
-                if(maps[i][j] == 1){
-                    int[][] newMaps = new int[maps.length][maps[0].length];
+        int[][] boardOrigin;
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        boolean isReachable = false;
+        int result = 10000;
 
-                    for(int k = 0; k < maps.length; k++){
-                        newMaps[k] = Arrays.copyOf(maps[k],maps[k].length);
-                    }
+        public Calculator(int[][] board) {
+            this.boardOrigin = board;
+        }
 
-                    newMaps[i][j] = 0;
+        public int getResult() {
+            explore();
+            breakWallAndExplore(0);
+            if(isReachable) return result;
+            return -1;
+        }
 
-                    int newLength = getLengthOfPath(newMaps);
-                    if(newLength >= 1) {
-                        this.shortestPath = Math.min(shortestPath, newLength);
+        private void breakWallAndExplore(int cnt) {
+            if (cnt == 1) {
+                explore();
+                return;
+            }
+
+            for (int i = 0; i < boardOrigin.length; i++) {
+                for (int j = 0; j < boardOrigin[i].length; j++) {
+                    if (boardOrigin[i][j] == 1) {
+                        boardOrigin[i][j] = 0;
+                        breakWallAndExplore(cnt + 1);
+                        boardOrigin[i][j] = 1;
                     }
                 }
             }
+
         }
-    }
 
-    private int getLengthOfPath(int[][] newMaps){
-        int[][] dis = new int[newMaps.length][newMaps[0].length];
+        private void explore() {
+            int[][] isVisited = new int[boardOrigin.length][boardOrigin[0].length];
+            Queue<Point> q = new ArrayDeque<>();
+            q.offer(new Point(0, 0, 1));
+            isVisited[0][0] = 1;
 
-        Queue<Point> q = new LinkedList<>();
-        q.offer(new Point(0, 0));
-        newMaps[0][0] = 1;
-        dis[0][0] = 1;
+            while (!q.isEmpty()) {
+                Point current = q.poll();
 
-        while(!q.isEmpty()){
+                for (int[] direction : directions) {
+                    int nx = current.x + direction[0];
+                    int ny = current.y + direction[1];
 
-            int len = q.size();
-
-            for(int i = 0; i < len; i++){
-                Point tmp = q.poll();
-
-                for(int j = 0; j < 4; j++){
-                    int nx = tmp.x + dx[j];
-                    int ny = tmp.y + dy[j];
-
-                    if(isWithinMaps(nx, ny) && newMaps[nx][ny] == 0 && dis[nx][ny] == 0){
-                        newMaps[nx][ny] = 1;
-                        dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
-                        q.offer(new Point(nx, ny));
+                    if (isWithinBoard(nx, ny) && isVisited[nx][ny] == 0 && boardOrigin[nx][ny] == 0) {
+                        isVisited[nx][ny] = current.step + 1;
+                        q.offer(new Point(nx, ny, current.step + 1));
                     }
                 }
             }
+            if (isVisited[boardOrigin.length - 1][boardOrigin[0].length - 1] != 0) {
+                isReachable = true;
+                result = Math.min(result, isVisited[boardOrigin.length - 1][boardOrigin[0].length - 1]);
+            }
+
+
         }
-        return dis[dis.length - 1][dis[dis.length - 1].length - 1];
-    }
 
-    private boolean isWithinMaps(int x, int y){
-        return x >= 0 && x < maps.length && y >= 0 && y < maps[x].length;
-    }
+        private boolean isWithinBoard(int x, int y) {
+            return 0 <= x && x < boardOrigin.length && 0 <= y && y < boardOrigin[x].length;
+        }
 
-    class Point{
-        int x;
-        int y;
+        private class Point {
+            int x, y, step;
 
-        public Point(int x, int y){
-            this.x = x;
-            this.y = y;
+            public Point(int x, int y, int step) {
+                this.x = x;
+                this.y = y;
+                this.step = step;
+            }
         }
     }
 }
+
+
