@@ -76,15 +76,6 @@ class Calculator {
             count++;
         }
 
-        for (int i = 1; i < 5; i++) {
-            int nx = x - i * dx;
-            int ny = y - i * dy;
-            if (isOutOfBoard(nx, ny) || board[nx][ny] != color) {
-                break;
-            }
-            count++;
-        }
-
         if (count == 5) {
             int prevX = x - dx;
             int prevY = y - dy;
