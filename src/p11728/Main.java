@@ -41,8 +41,28 @@ class Solution {
     StringBuilder result = new StringBuilder();
 
     public String solution(int[] arr1, int[] arr2) {
-        MySort ms = new MySort(arr1, arr2);
-        return getAnswer(ms.getSorted());
+        int[] merged = new int[arr1.length + arr2.length];
+        int i = 0;
+        int arr1p = 0;
+        int arr2p = 0;
+
+        while (arr1p < arr1.length && arr2p < arr2.length) {
+            if (arr1[arr1p] > arr2[arr2p]) {
+                merged[i++] = arr2[arr2p++];
+            } else {
+                merged[i++] = arr1[arr1p++];
+            }
+        }
+
+        while (arr1p < arr1.length) {
+            merged[i++] = arr1[arr1p++];
+        }
+
+        while (arr2p < arr2.length) {
+            merged[i++] = arr2[arr2p++];
+        }
+
+        return getAnswer(merged);
     }
 
     private String getAnswer(int[] arr) {
@@ -50,52 +70,5 @@ class Solution {
             result.append(i).append(" ");
         }
         return result.toString();
-    }
-}
-
-class MySort {
-
-    int[] arr1;
-    int[] arr2;
-    int[] sorted;
-    int arr1p = 0;
-    int arr2p = 0;
-
-    public MySort(int[] arr1, int[] arr2) {
-        this.arr1 = arr1;
-        this.arr2 = arr2;
-        this.sorted = new int[arr1.length + arr2.length];
-    }
-
-    public int[] getSorted() {
-        for (int i = 0; i < sorted.length; i++) {
-            sorted[i] = getSmaller();
-        }
-        return sorted;
-    }
-
-    private int getSmaller() {
-        int arr1Target = Integer.MIN_VALUE;
-        int arr2Target = Integer.MIN_VALUE;
-
-        if(arr1p < arr1.length) arr1Target = arr1[arr1p];
-        if(arr2p < arr2.length) arr2Target = arr2[arr2p];
-
-        if (arr1Target == Integer.MIN_VALUE) {
-            arr2p++;
-            return arr2Target;
-        }
-        if (arr2Target == Integer.MIN_VALUE) {
-            arr1p++;
-            return arr1Target;
-        }
-
-        if (arr1Target > arr2Target) {
-            arr2p++;
-            return arr2Target;
-        } else {
-            arr1p++;
-            return arr1Target;
-        }
     }
 }
