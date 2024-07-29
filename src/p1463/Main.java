@@ -1,81 +1,37 @@
 package p1463;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
+
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            int num = Integer.parseInt(br.readLine());
 
-            Target target = new Target(num, 0);
-            Solution s = new Solution(target);
-            System.out.println(s.solution());
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private static int getInput(BufferedReader br) throws IOException {
+        return Integer.parseInt(br.readLine());
+    }
 }
 
 class Solution {
 
-    Target target;
-    boolean[] isChecked;
-
-    public Solution(Target target) {
-        this.target = target;
-        this.isChecked = new boolean[target.getX() + 1];
-    }
-
-    public int solution() {
-        Queue<Target> q = new LinkedList<>();
-        q.offer(this.target);
-        this.isChecked[this.target.getX()] = true;
-
-        while (!q.isEmpty()) {
-            int len = q.size();
-
-            for (int i = 0; i < len; i++) {
-                Target currentNum = q.poll();
-
-                if (currentNum.getX() == 1) {
-                    return currentNum.getNumOfOper();
-                }
-
-                if (currentNum.getX() % 3 == 0 && !this.isChecked[currentNum.getX() / 3]) {
-                    this.isChecked[currentNum.getX() / 3] = true;
-                    q.offer(new Target(currentNum.getX() / 3, currentNum.getNumOfOper() + 1));
-                }
-                if (currentNum.getX() % 2 == 0 && !this.isChecked[currentNum.getX() / 2]) {
-                    this.isChecked[currentNum.getX() / 2] = true;
-                    q.offer(new Target(currentNum.getX() / 2, currentNum.getNumOfOper() + 1));
-                }
-                if (currentNum.getX() - 1 > 0 && !this.isChecked[currentNum.getX() - 1]) {
-                    this.isChecked[currentNum.getX() - 1] = true;
-                    q.offer(new Target(currentNum.getX() - 1, currentNum.getNumOfOper() + 1));
-                }
-            }
+    public int solution(int target) {
+        int[] field = new int[target + 1];
+        field[1] = 0;
+        for (int i = 2; i < field.length; i++) {
+            field[i] = field[i - 1] + 1;
+            if(i % 2 == 0) field[i] = Math.min(field[i], field[i / 2] + 1);
+            if(i % 3 == 0) field[i] = Math.min(field[i], field[i / 3] + 1);
         }
-        return -1;
-    }
-}
-
-class Target {
-
-    int x;
-    int numOfOper;
-
-    public Target(int x, int numOfOper) {
-        this.x = x;
-        this.numOfOper = numOfOper;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getNumOfOper() {
-        return numOfOper;
+        return field[target];
     }
 }

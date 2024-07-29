@@ -1,38 +1,54 @@
 package p9095;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            int len = Integer.parseInt(br.readLine());
 
-            for (int i = 0; i < len; i++) {
-                Solution s = new Solution();
-                System.out.println(s.solution(Integer.parseInt(br.readLine())));
-            }
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static int[] getInput(BufferedReader br) throws IOException {
+        int len = Integer.parseInt(br.readLine());
+        int[] targets = new int[len];
+        for (int i = 0; i < targets.length; i++) {
+            targets[i] = Integer.parseInt(br.readLine());
+        }
+        return targets;
     }
 }
 
 class Solution {
 
-    public int solution(int target) {
-        List<Integer> lst = new ArrayList<>();
-        lst.add(0);
-        lst.add(1);
-        lst.add(2);
-        lst.add(4);
+    StringBuilder result = new StringBuilder();
 
-        for (int i = 4; i <= target; i++) {
-            int tmp = lst.get(i - 3) + lst.get(i - 2) + lst.get(i - 1);
-            lst.add(tmp);
+    public String solution(int[] targets) {
+        for (int target : targets) {
+            result.append(calc(target)).append("\n");
         }
+        return result.toString();
+    }
 
-        return lst.get(target);
+    private int calc(int target) {
+        if(target == 1) return 1;
+        if(target == 2) return 2;
+        if(target == 3) return 4;
+        int[] field = new int[target + 1];
+        field[1] = 1;
+        field[2] = 2;
+        field[3] = 4;
+        for (int i = 4; i < field.length; i++) {
+            field[i] = field[i - 3] + field[i - 2] + field[i - 1];
+        }
+        return field[target];
     }
 }
