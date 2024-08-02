@@ -38,11 +38,9 @@ class Solution {
 
     private List<Long> getField(int[] arr) {
         int limit = getMaxElem(arr);
-        Long[] defaultValues = {0L, 1L, 1L, 1L, 2L, 2L, 3L, 4L, 5L, 7L, 9L};
-        List<Long> lst = new ArrayList<>();
-        for(long i : defaultValues) lst.add(i);
+        List<Long> lst = new ArrayList<>(List.of(0L, 1L, 1L, 1L, 2L, 2L, 3L, 4L, 5L, 7L, 9L));
 
-        for (int i = defaultValues.length - 1; i < limit + 1; i++) {
+        for (int i = lst.size() - 1; i < limit + 1; i++) {
             lst.add(lst.get(i) + lst.get(i - 4));
         }
         return lst;
