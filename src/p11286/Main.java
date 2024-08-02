@@ -1,7 +1,10 @@
-package p11268;
+package p11286;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Main {
 
@@ -11,7 +14,7 @@ public class Main {
             int[] input = getInput(br);
 
             Solution s = new Solution();
-            s.solution(input);
+            System.out.println(s.solution(input));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -32,30 +35,35 @@ public class Main {
 
 class Solution {
 
-    public void solution(int[] input) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
-            int A = Math.abs(o1);
-            int B = Math.abs(o2);
+    StringBuilder result = new StringBuilder();
 
-            if (A > B) {
-                return A - B;
-            } else if (A == B) {
-                return o1 - o2;
-            } else {
-                return -1;
-            }
-        });
+    public String solution(int[] input) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new AbsoluteComparator());
 
         for (int x : input) {
             if (x == 0) {
                 if (!pq.isEmpty()) {
-                    System.out.println(pq.poll());
+                    result.append(pq.poll());
                 } else {
-                    System.out.println(0);
+                    result.append(0);
                 }
+                result.append("\n");
             } else {
                 pq.offer(x);
             }
         }
+        return result.toString();
+    }
+}
+
+class AbsoluteComparator implements Comparator<Integer> {
+
+    @Override
+    public int compare(Integer o1, Integer o2) {
+        int A = Math.abs(o1);
+        int B = Math.abs(o2);
+
+        if(A == B) return Integer.compare(o1, o2);
+        return Integer.compare(A, B);
     }
 }
