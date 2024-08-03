@@ -1,78 +1,88 @@
 package p11724BFS;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-            int numOfComponents = Integer.parseInt(st.nextToken());
-            int numOfNodes = Integer.parseInt(st.nextToken());
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
 
-            int[][] network = new int[numOfComponents + 1][numOfComponents + 1];
-
-            for (int i = 0; i < numOfNodes; i++) {
-                st = new StringTokenizer(br.readLine(), " ");
-
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-
-                network[x][y] = 1;
-                network[y][x] = 1;
-            }
-
-            ConnectedComponentFinder ccf = new ConnectedComponentFinder(network);
-            System.out.println(ccf.getNumOfConnectedComponents());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-}
 
-class ConnectedComponentFinder {
+    private static List<List<Integer>> getInput(BufferedReader br) throws IOException {
+        String[] dimension = br.readLine().split(" ");
+        int numOfNodes = Integer.parseInt(dimension[0]) + 1;
+        int numOfEdges = Integer.parseInt(dimension[1]);
 
-    int[][] network;
-    boolean[] isChecked;
-
-    public ConnectedComponentFinder(int[][] network) {
-        this.network = network;
-        this.isChecked = new boolean[network.length];
-    }
-
-    public int getNumOfConnectedComponents() {
-        int numOfConnectedComponents = 0;
-
-        for (int from = 1; from < network.length; from++) {
-            for (int to = 1; to < network[from].length; to++) {
-                if(!isChecked[from]){
-                    explore(from);
-                    numOfConnectedComponents++;
-                }
-            }
+        List<List<Integer>> graph = new ArrayList<>();
+        while(numOfNodes --> 0) graph.add(new ArrayList<>());
+        while (numOfEdges-- > 0) {
+            String[] tokens = br.readLine().split(" ");
+            int from = Integer.parseInt(tokens[0]);
+            int to = Integer.parseInt(tokens[1]);
+            graph.get(from).add(to);
+            graph.get(to).add(from);
         }
 
-        return numOfConnectedComponents;
+        return graph;
+    }
+}
+
+class Solution {
+
+    public int solution(List<List<Integer>> graph) {
+        Calculator c = new Calculator(graph);
+        return c.getResult();
+    }
+}
+
+class Calculator {
+
+    List<List<Integer>> graph;
+    boolean[] isVisited;
+    int numOfConnected = 0;
+
+    public Calculator(List<List<Integer>> graph) {
+        this.graph = graph;
+        this.isVisited = new boolean[graph.size()];
     }
 
-    private void explore(int from){
-        Queue<Integer> q = new LinkedList<>();
-        isChecked[from] = true;
-        q.offer(from);
+    public int getResult() {
+        explore();
+        return numOfConnected;
+    }
+
+    private void explore() {
+        for (int i = 1; i < graph.size(); i++) {
+            if (isVisited[i]) continue;
+            isVisited[i] = true;
+            numOfConnected++;
+            BFS(i);
+        }
+    }
+
+    private void BFS(int i) {
+        Queue<Integer> q = new ArrayDeque<>();
+        q.offer(i);
 
         while (!q.isEmpty()) {
-            int len = q.size();
+            int now = q.poll();
 
-            for (int i = 0; i < len; i++) {
-                int currentComponents = q.poll();
-
-                for (int target = 1; target < network[currentComponents].length; target++) {
-                    if (network[currentComponents][target] == 1 && !isChecked[target]) {
-                        isChecked[target] = true;
-                        q.offer(target);
-                    }
-                }
+            for (int nextNode : graph.get(now)) {
+                if(isVisited[nextNode]) continue;
+                isVisited[nextNode] = true;
+                q.offer(nextNode);
             }
         }
     }
