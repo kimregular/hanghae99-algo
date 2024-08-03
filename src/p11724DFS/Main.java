@@ -6,63 +6,72 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            int numOfNodes = Integer.parseInt(st.nextToken());
-            int numOfEdges = Integer.parseInt(st.nextToken());
 
-            ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-            for (int i = 0; i <= numOfNodes; i++) {
-                graph.add(new ArrayList<>());
-            }
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
 
-            for (int i = 0; i < numOfEdges; i++) {
-                st = new StringTokenizer(br.readLine(), " ");
-                int num1 = Integer.parseInt(st.nextToken());
-                int num2 = Integer.parseInt(st.nextToken());
-                graph.get(num1).add(num2);
-                graph.get(num2).add(num1);
-            }
-
-            DFSScanner df = new DFSScanner(graph);
-            System.out.println(df.getNumOfConnectedComponents());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-}
 
-class DFSScanner {
+    private static List<List<Integer>> getInput(BufferedReader br) throws IOException {
+        String[] dimension = br.readLine().split(" ");
+        int numOfNodes = Integer.parseInt(dimension[0]) + 1;
+        int numOfEdges = Integer.parseInt(dimension[1]);
 
-    ArrayList<ArrayList<Integer>> graph;
-    boolean[] isVisited;
-
-
-    public DFSScanner(ArrayList<ArrayList<Integer>> graph) {
-        this.graph = graph;
-        this.isVisited = new boolean[graph.size() + 1];
-    }
-
-    public int getNumOfConnectedComponents() {
-        int numOfConnectedComponents = 0;
-
-        for (int i = 1; i < graph.size(); i++) {
-            if (!isVisited[i]) {
-                DFS(i);
-                numOfConnectedComponents++;
-            }
+        List<List<Integer>> graph = new ArrayList<>();
+        while(numOfNodes --> 0) graph.add(new ArrayList<>());
+        while (numOfEdges-- > 0) {
+            String[] tokens = br.readLine().split(" ");
+            int from = Integer.parseInt(tokens[0]);
+            int to = Integer.parseInt(tokens[1]);
+            graph.get(from).add(to);
+            graph.get(to).add(from);
         }
 
-        return numOfConnectedComponents;
+        return graph;
+    }
+}
+
+class Solution {
+
+    public int solution(List<List<Integer>> graph) {
+        Calculator c = new Calculator(graph);
+        return c.getResult();
+    }
+}
+
+class Calculator {
+
+    List<List<Integer>> graph;
+    boolean[] isVisited;
+    int numOfConnected = 0;
+
+    public Calculator(List<List<Integer>> graph) {
+        this.graph = graph;
+        this.isVisited = new boolean[graph.size()];
     }
 
-    private void DFS(int l) {
-        if (isVisited[l]) return;
-        isVisited[l] = true;
-        for (int i = 0; i < graph.get(l).size(); i++) {
-            int nextNode = graph.get(l).get(i);
-            if (!isVisited[nextNode]) {
-                DFS(nextNode);
-            }
+    public int getResult() {
+        explore();
+        return numOfConnected;
+    }
+
+    private void explore() {
+        for (int i = 1; i < graph.size(); i++) {
+            if(isVisited[i]) continue;
+            numOfConnected++;
+            DFS(i);
+        }
+    }
+
+    private void DFS(int i) {
+        if(isVisited[i]) return;
+        isVisited[i] = true;
+        for (int nextNode : graph.get(i)) {
+            if(isVisited[nextNode]) continue;
+            DFS(nextNode);
         }
     }
 }
