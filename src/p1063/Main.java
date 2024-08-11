@@ -57,63 +57,81 @@ class Solution {
 
 class ChessBoard {
 
-    int[][] board = new int[8][8];
-    int[] kingPosition;
-    int[] rockPosition;
+    Position king;
+    Position rock;
 
-    private static final Map<String, Integer> positionConverter = Map.of("A", 0, "B", 1, "C", 2, "D", 3, "E", 4, "F", 5, "G", 6, "H", 7);
     private static final Map<String, int[]> moveConverter = Map.of("R", new int[]{0, 1}, "L", new int[]{0, -1}, "B", new int[]{1, 0}, "T", new int[]{-1, 0}, "RT", new int[]{-1, 1}, "LT", new int[]{-1, -1}, "RB", new int[]{1, 1}, "LB", new int[]{1, -1});
 
-    private static int[] convertPosition(String position) {
-        String[] positionTemp = position.split("");
-        return new int[]{8 - Integer.parseInt(positionTemp[1]), positionConverter.get(positionTemp[0])};
-    }
-
     public ChessBoard(String kingPosition, String rockPosition) {
-        this.kingPosition = convertPosition(kingPosition);
-        this.rockPosition = convertPosition(rockPosition);
+        this.king = new Position(kingPosition);
+        this.rock = new Position(rockPosition);
     }
 
     public void move(String order) {
         int[] move = moveConverter.get(order);
-        int[] originalKingPosition = kingPosition;
-        int nx = kingPosition[0] + move[0];
-        int ny = kingPosition[1] + move[1];
 
-        if (isOutBoard(nx, ny)) {
-            return;
+        Position newKingPosition = king.move(move);
+
+        if(newKingPosition.isInvalidPosition()) return;
+
+        if (rock.equals(newKingPosition)) {
+            Position newRockPosition = rock.move(move);
+            if(newRockPosition.isInvalidPosition()) return;
+            rock = newRockPosition;
         }
-        kingPosition = new int[]{nx, ny};
-
-        if (Arrays.equals(kingPosition, rockPosition)) {
-            nx = rockPosition[0] + move[0];
-            ny = rockPosition[1] + move[1];
-            if (isOutBoard(nx, ny)) {
-                kingPosition = originalKingPosition;
-                return;
-            }
-            rockPosition = new int[]{nx, ny};
-        }
-
+        king = newKingPosition;
     }
 
     public String getResult() {
-        return getPosition(kingPosition) + "\n" + getPosition(rockPosition);
+        return king.getPosition() + "\n" + rock.getPosition();
+    }
+}
+
+class Position {
+
+    int row;
+    int col;
+    private static final Map<String, Integer> positionConverter = Map.of("A", 0, "B", 1, "C", 2, "D", 3, "E", 4, "F", 5, "G", 6, "H", 7);
+    private static final String[] reversePosition = {"A", "B", "C", "D", "E", "F", "G", "H"};
+
+    private static int[] convert(String position) {
+        String[] positionTemp = position.split("");
+        return new int[]{8 - Integer.parseInt(positionTemp[1]), positionConverter.get(positionTemp[0])};
     }
 
-    private String getPosition(int[] position) {
-        String stringPosition = "";
-        for (String key : positionConverter.keySet()) {
-            if (positionConverter.get(key) == position[1]) {
-                stringPosition = key;
-                break;
-            }
-        }
-        return stringPosition + (8 - position[0]);
+    public Position(String position) {
+        int[] convertedPosition = convert(position);
+        this.row = convertedPosition[0];
+        this.col = convertedPosition[1];
     }
 
-    private boolean isOutBoard(int x, int y) {
-        return 0 > x || x >= board.length || 0 > y || y >= board[x].length;
+    public Position(int x, int y) {
+        this.row = x;
+        this.col = y;
     }
 
+    public String getPosition() {
+        return reversePosition[col] + (8 - row);
+    }
+
+    public Position move(int[] move) {
+        return new Position(row + move[0], col + move[1]);
+    }
+
+    public boolean isInvalidPosition() {
+        return 0 > row || row >= 8 || 0 > col || col >= 8;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return row == position.row && col == position.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
+    }
 }
