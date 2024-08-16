@@ -6,97 +6,80 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            Fabric fabric = new Fabric(x, y);
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br)));
 
-            for (int i = 0; i < x; i++) {
-                String[] tokens = br.readLine().split("");
-                for (int j = 0; j < y; j++) {
-                    fabric.setValue(i, j, Integer.parseInt(tokens[j]));
-                }
-            }
-
-            PercolateDeterminer pd = new PercolateDeterminer(fabric);
-            System.out.println(pd.isPercolatable());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private static int[][] getInput(BufferedReader br) throws IOException {
+        String[] dimension = br.readLine().split(" ");
+        int x = Integer.parseInt(dimension[0]);
+        int y = Integer.parseInt(dimension[1]);
+        int[][] field = new int[x][y];
+
+        for (int i = 0; i < field.length; i++) {
+            String[] temp = br.readLine().split("");
+            for (int j = 0; j < field[i].length; j++) {
+                field[i][j] = Integer.parseInt(temp[j]);
+            }
+        }
+        return field;
+    }
 }
 
-class PercolateDeterminer {
+class Solution {
 
-    Fabric fabric;
-    int[][] directions = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+    public String solution(int[][] fabric) {
+        Calculator c = new Calculator(fabric);
+        return c.getResult();
+    }
+}
 
-    public PercolateDeterminer(Fabric fabric) {
+class Calculator {
+
+    int[][] fabric;
+    boolean[][] isChecked;
+    int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    boolean isPercolate = false;
+
+    public Calculator(int[][] fabric) {
         this.fabric = fabric;
+        this.isChecked = new boolean[fabric.length][fabric[0].length];
     }
 
-    public String isPercolatable() {
-        for (int i = 0; i < this.fabric.getX(); i++) {
-            boolean[][] isPercolated = new boolean[this.fabric.getX()][this.fabric.getY()];
-            if (this.fabric.getFabric()[0][i] == 0) {
-                DFS(0, i, isPercolated);
-                if(percolationCheck(isPercolated)) return "YES";
+    public String getResult() {
+        for (int i = 0; i < fabric[0].length; i++) {
+            if (fabric[0][i] == 0) {
+                DFS(0, i);
             }
+            if(isPercolate) return "YES";
         }
         return "NO";
     }
 
-    private void DFS(int x, int y, boolean[][] isPercolated) {
-        isPercolated[x][y] = true;
-        if(x == this.fabric.getX() - 1) return;
-        for (int[] direct : this.directions) {
-            int nx = x + direct[0];
-            int ny = y + direct[1];
+    private void DFS(int x, int y) {
+        isChecked[x][y] = true;
 
-            if (isWithinFabric(nx, ny) && this.fabric.getFabric()[nx][ny] == 0 && !isPercolated[nx][ny]) {
-                DFS(nx, ny, isPercolated);
+        if (x == fabric.length - 1 && fabric[x][y] == 0) {
+            isPercolate = true;
+            return;
+        }
+
+        for (int[] direction : directions) {
+            int nx = x + direction[0];
+            int ny = y + direction[1];
+
+            if (isWithinFabric(nx, ny) && fabric[nx][ny] == 0 && !isChecked[nx][ny]) {
+                DFS(nx, ny);
             }
         }
     }
 
     private boolean isWithinFabric(int x, int y) {
-        return x >= 0 && x < this.fabric.getX() && y >= 0 && y < this.fabric.getY();
-    }
-
-    private boolean percolationCheck(boolean[][] isPercolated) {
-        for (int i = 0; i < this.fabric.getY(); i++) {
-            if(isPercolated[this.fabric.getX()-1][i]) return true;
-        }
-        return false;
-    }
-}
-
-class Fabric {
-
-    int x;
-    int y;
-    int[][] fabric;
-
-    public Fabric(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.fabric = new int[x][y];
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setValue(int x, int y, int value) {
-        this.fabric[x][y] = value;
-    }
-
-    public int[][] getFabric() {
-        return this.fabric;
+        return 0 <= x && x < fabric.length && 0 <= y && y < fabric[x].length;
     }
 }
