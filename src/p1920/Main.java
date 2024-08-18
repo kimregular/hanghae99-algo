@@ -10,55 +10,43 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            int N = Integer.parseInt(br.readLine());
 
-            int[] arr = new int[N];
-            StringTokenizer aSt = new StringTokenizer(br.readLine());
-            for (int i = 0; i < N; i++) {
-                arr[i] = Integer.parseInt(aSt.nextToken());
-            }
-
-            int M = Integer.parseInt(br.readLine());
-            int[] brr = new int[M];
-            StringTokenizer bSt = new StringTokenizer(br.readLine(), " ");
-            for (int i = 0; i < M; i++) {
-                brr[i] = Integer.parseInt(bSt.nextToken());
-            }
-
-            Solution s = new Solution(arr, brr);
-            System.out.println(s.solution());
+            Solution s = new Solution();
+            System.out.println(s.solution(getInput(br), getInput(br)));
 
         }
+    }
+
+    private static int[] getInput(BufferedReader br) throws IOException {
+        int len = Integer.parseInt(br.readLine());
+        int[] result = new int[len];
+
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < result.length; i++) {
+            result[i] = Integer.parseInt(st.nextToken());
+        }
+
+        return result;
     }
 }
 
 class Solution {
 
-    int[] arr;
-    int[] brr;
-
-    public Solution(int[] arr, int[] brr) {
-        this.arr = arr;
-        this.brr = brr;
+    public String solution(int[] arr1, int[] arr2) {
+        return getAnswer(getSet(arr1), arr2);
     }
 
-    public String solution() {
-        Set<Integer> set = new HashSet<>();
-        for (int i : arr) {
-            set.add(i);
-        }
+    private Set<Integer> getSet(int[] arr) {
+        Set<Integer> set = new HashSet<>(arr.length);
+        for(int i : arr) set.add(i);
+        return set;
+    }
 
+    private String getAnswer(Set<Integer> set, int[] arr) {
         StringBuilder sb = new StringBuilder();
-
-        for (int i : brr) {
-            if (set.contains(i)) {
-                sb.append(1);
-            } else {
-                sb.append(0);
-            }
-            sb.append("\n");
+        for (int i : arr) {
+            sb.append(set.contains(i) ? "1" : "0").append("\n");
         }
-
         return sb.toString();
     }
 }
