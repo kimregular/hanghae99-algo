@@ -31,17 +31,19 @@ public class Main {
 
 class Solution {
 
-    public int solution(int[] nums) {
-        if(nums.length == 1) return 1;
-        int[] dp = new int[nums.length];
-        Arrays.fill(dp, 1);
-        int result = 0;
+    public int solution(int[] field) {
+        if(field.length ==1) return 1;
+        int[] decreaseField = new int[field.length];
+        Arrays.fill(decreaseField, 1);
 
-        for (int i = 1; i < nums.length; i++) {
+        int result = 1;
+        for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[i] < nums[j]) dp[i] = Math.max(dp[i], dp[j] + 1);
+                if (field[i] < field[j]) {
+                    decreaseField[i] = Math.max(decreaseField[i], decreaseField[j] + 1);
+                }
             }
-            result = Math.max(result, dp[i]);
+            result = Math.max(result, decreaseField[i]);
         }
         return result;
     }
