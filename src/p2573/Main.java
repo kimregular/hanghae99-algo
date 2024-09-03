@@ -37,7 +37,7 @@ class Solution {
 
     public int solution(int[][] field) {
         Calculator c = new Calculator(field);
-        return c.getResult();
+        return c.calculateYearsUntilSplit();
     }
 }
 
@@ -47,48 +47,50 @@ class Calculator {
 
     private final int[][] field;
     private final Queue<int[]> q;
-    private int result;
+    private int yearsToSplit;
     private boolean isSplited;
 
     public Calculator(int[][] field) {
         this.field = field;
         this.q = new ArrayDeque<>();
-        this.result = 0;
+        this.yearsToSplit = 0;
         this.isSplited = false;
     }
 
-    public int getResult() {
-        init();
-        calc();
-        return isSplited ? result : 0;
+    public int calculateYearsUntilSplit() {
+        initQueue();
+        while (!q.isEmpty()) {
+            if (isGlacierSplit()) {
+                return yearsToSplit;
+            }
+            meltGlacier();
+            yearsToSplit++;
+        }
+        return 0;
     }
 
-    private void init() {
+    private void meltGlacier() {
+        int len = q.size();
+        for (int i = 0; i < len; i++) {
+            int[] cur = q.poll();
+            int glacierHeight = field[cur[0]][cur[1]];
+            int meltAmount = getMeltAmount(cur);
+            field[cur[0]][cur[1]] = glacierHeight - meltAmount;
+            if (glacierHeight - meltAmount > 0) {
+                q.offer(cur);
+            } else {
+                field[cur[0]][cur[1]] = -1;
+            }
+        }
+        postProcess();
+    }
+
+    private void initQueue() {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[i].length; j++) {
                 if (field[i][j] == 0) continue;
                 q.offer(new int[]{i, j});
             }
-        }
-    }
-
-    private void calc() {
-        while (!q.isEmpty()) {
-            if (isTwo()) return;
-            int len = q.size();
-            for (int i = 0; i < len; i++) {
-                int[] cur = q.poll();
-                int value = field[cur[0]][cur[1]];
-                int minus = getMinus(cur);
-                field[cur[0]][cur[1]] = value - minus;
-                if (value - minus > 0) {
-                    q.offer(cur);
-                } else {
-                    field[cur[0]][cur[1]] = -1;
-                }
-            }
-            postProcess();
-            result++;
         }
     }
 
@@ -102,7 +104,7 @@ class Calculator {
         }
     }
 
-    private int getMinus(int[] cur) {
+    private int getMeltAmount(int[] cur) {
         int minus = 0;
         for (int[] direction : directions) {
             int nx = cur[0] + direction[0];
@@ -115,7 +117,7 @@ class Calculator {
         return minus;
     }
 
-    private boolean isTwo() {
+    private boolean isGlacierSplit() {
         int numOfGlacier = 0;
         boolean[][] isChecked = new boolean[field.length][field[0].length];
         for (int i = 0; i < field.length; i++) {
