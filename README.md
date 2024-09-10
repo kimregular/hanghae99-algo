@@ -3,32 +3,9 @@
 ## 다시 풀기 리스트
 
 
-- https://school.programmers.co.kr/learn/courses/30/lessons/120815  
-참고 https://myjamong.tistory.com/138
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120896
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120886
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120852
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120913
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120840/solution_groups?language=java
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120843
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120882
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/120878#qna
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/181851
-
 - https://www.acmicpc.net/problem/15565
 
 - https://www.acmicpc.net/problem/1598
-
-- https://school.programmers.co.kr/learn/courses/30/lessons/181921
 
 - https://www.acmicpc.net/problem/17298
 
