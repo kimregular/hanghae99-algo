@@ -3,9 +3,7 @@ package p12789;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
@@ -34,46 +32,28 @@ public class Main {
 class Solution {
 
     public String solution(int[] queue) {
-        List<Integer> stck = new ArrayList<>();
+        Deque<Integer> stck = new ArrayDeque<>();
         int turn = 1;
 
-        for (int i = 0; i < queue.length; i++) {
-            int target = queue[i];
+        for (int target : queue) {
             if (turn == target) {
                 turn++;
             } else {
-                if (!stck.isEmpty()) {
-                    while (true) {
-                        if(stck.isEmpty()) break;
-
-                        int savedTarget = stck.get(stck.size() - 1);
-                        if (savedTarget == turn) {
-                            stck.remove(stck.size() - 1);
-                            turn++;
-                        } else {
-                            break;
-                        }
-                    }
+                while (!stck.isEmpty() && stck.peekLast() == turn) {
+                    stck.pollLast();
+                    turn++;
                 }
                 stck.add(target);
             }
         }
 
-        if (stck.isEmpty()) return "Nice";
-
-        while (!stck.isEmpty()) {
-            int target = stck.get(stck.size() - 1);
-            stck.remove(stck.size() - 1);
-
-            if (target == turn) {
-                turn++;
-            } else {
-                return "Sad";
-            }
+        while (!stck.isEmpty() && stck.peekLast() == turn) {
+            stck.pollLast();
+            turn++;
         }
 
 
-        return turn == queue.length + 1 ? "Nice" : "Sad";
+        return stck.isEmpty() ? "Nice" : "Sad";
     }
 }
 
