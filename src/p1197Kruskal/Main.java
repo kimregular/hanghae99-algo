@@ -1,10 +1,10 @@
-package p1197;
+package p1197Kruskal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -59,31 +59,24 @@ public class Main {
 class Solution {
 
     public int solution(int numOfNodes, int[][] map) {
+        Arrays.sort(map, Comparator.comparing(a -> a[2]));
         int sumOfWeight = 0;
-        PriorityQueue<int[]> pq = getPQ(map);
         int cnt = 0;
 
         int[] group = groupInit(numOfNodes);
 
-        while (!pq.isEmpty() && cnt < numOfNodes - 1) {
-            int[] cur = pq.poll();
+        for (int[] info : map) {
+            if (cnt == numOfNodes - 1) break;
+            int[] cur = info;
             int from = cur[0];
             int to = cur[1];
-            if(isSameGroup(group, from, to)) continue;
+            if (isSameGroup(group, from, to)) continue;
 
             connect(group, from, to);
             sumOfWeight += cur[2];
             cnt++;
         }
         return sumOfWeight;
-    }
-
-    private PriorityQueue<int[]> getPQ(int[][] map) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparing(a -> a[2]));
-        for (int[] info : map) {
-            pq.offer(info);
-        }
-        return pq;
     }
 
     private int[] groupInit(int numOfNodes) {
