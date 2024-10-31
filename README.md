@@ -1,6 +1,7 @@
 # 알고리즘 풀이 모음
 
-## 두 선분이 겹치는지 확인하는 로직
+## 코드 스니펫
+### 두 선분이 겹치는지 확인하는 로직
 
 ```java
 public boolean isConnected(int[] line1, int line2) {
