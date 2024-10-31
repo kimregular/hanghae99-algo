@@ -1,7 +1,24 @@
 # 알고리즘 풀이 모음
 
-## 다시 풀기 리스트
+## 두 선분이 겹치는지 확인하는 로직
 
+```java
+public boolean isConnected(int[] line1, int line2) {
+    return Math.max(line1[0], line2[0]) <= Math.min(line1[1], line2[1]);
+}
+
+// 아래 두 선분은 겹치는 선분임
+int[] line1 = {1, 3};
+int[] line2 = {2, 4};
+// 2 <= 3 -> true
+
+// 아래 두 선분은 겹치지 않는 선분임
+int[] line3 = {1, 3};
+int[] line4 = {5, 9};
+// 5 <= 3 -> false
+```
+
+## 다시 풀기 리스트
 
 - https://www.acmicpc.net/problem/15565
 
