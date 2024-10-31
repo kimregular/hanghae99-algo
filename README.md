@@ -4,7 +4,7 @@
 ### 두 선분이 겹치는지 확인하는 로직
 
 ```java
-public boolean isConnected(int[] line1, int line2) {
+public boolean isConnected(int[] line1, int[] line2) {
     return Math.max(line1[0], line2[0]) <= Math.min(line1[1], line2[1]);
 }
 
