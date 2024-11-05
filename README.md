@@ -30,6 +30,25 @@ private double getDistance(double[] star1, double[] star2) {
 }
 ```
 
+### 4개 점의 좌표가 있을 때 해당 점으로 만들 수 있는 도형이 정사각형인지 판단하기
+
+```java
+private boolean isSquare(int[][] points) { // 4개 점의 (x, y) 주어짐
+    Set<Double> lengthSet = new HashSet<>();
+    for (int i = 0; i < points.length; i++) {
+        for (int j = 0; j < points.length; j++) {
+            if (i == j) continue;
+            lengthSet.add(getLength(points[i], points[j]));
+        }
+    }
+    return lengthSet.size() == 2;
+}
+
+// lengthSet의 크기가 2라면 정사각형이다
+// 각 변의 길이 똑같아야하고
+// 각 대각선의 길이가 똑같아야한다.
+```
+
 ## 다시 풀기 리스트
 
 - https://www.acmicpc.net/problem/15565
