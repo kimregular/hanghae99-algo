@@ -1,6 +1,7 @@
 # 알고리즘 풀이 모음
 
 ## 코드 스니펫
+
 ### 두 선분이 겹치는지 확인하는 로직
 
 ```java
@@ -17,6 +18,16 @@ int[] line2 = {2, 4};
 int[] line3 = {1, 3};
 int[] line4 = {5, 9};
 // 5 <= 3 -> false
+```
+
+### 두 점 사이의 거리 구하기
+
+```java
+private double getDistance(double[] star1, double[] star2) {
+    double width = star2[1] - star1[1];
+    double height = star2[0] - star1[0];
+    return Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+}
 ```
 
 ## 다시 풀기 리스트
