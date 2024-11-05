@@ -44,6 +44,10 @@ private boolean isSquare(int[][] points) { // 4개 점의 (x, y) 주어짐
     return lengthSet.size() == 2;
 }
 
+private double getLength(int[] point1, int[] point2) {
+    return Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2);
+}
+
 // lengthSet의 크기가 2라면 정사각형이다
 // 각 변의 길이 똑같아야하고
 // 각 대각선의 길이가 똑같아야한다.
