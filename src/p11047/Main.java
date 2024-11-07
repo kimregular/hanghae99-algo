@@ -1,14 +1,19 @@
 package p11047;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
     public static void main(String[] args) {
+        new Main().run();
+    }
+
+    private void run() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
 
             Input ip = getInput(br);
-
             Solution s = new Solution();
             System.out.println(s.solution(ip.target, ip.coins));
 
@@ -17,7 +22,7 @@ public class Main {
         }
     }
 
-    private static Input getInput(BufferedReader br) throws IOException {
+    private Input getInput(BufferedReader br) throws IOException {
         String[] st = br.readLine().split(" ");
 
         int numOfCoins = Integer.parseInt(st[0]);
@@ -31,6 +36,18 @@ public class Main {
 
         return new Input(target, coins);
     }
+
+    private static class Input {
+
+        private final int target;
+        private final int[] coins;
+
+        public Input(int target, int[] coins) {
+            this.target = target;
+            this.coins = coins;
+        }
+    }
+
 }
 
 class Solution {
@@ -38,28 +55,13 @@ class Solution {
     public int solution(int target, int[] coins) {
         int answer = 0;
 
-        for (int i = coins.length - 1; i >= 0; i--) {
-            int coin = coins[i];
-
-            if (coin <= target) {
-                answer += target / coin;
-                target %= coin;
-            }
-
-            if(target <= 0) break;
+        int len = coins.length;
+        for (int i = 0; i < len; i++) {
+            if(target < coins[len - i - 1]) continue;
+            answer += target / coins[len - i - 1];
+            target %= coins[len - i - 1];
         }
-
         return answer;
     }
 }
 
-class Input {
-
-    int target;
-    int[] coins;
-
-    public Input(int target, int[] coins) {
-        this.target = target;
-        this.coins = coins;
-    }
-}
