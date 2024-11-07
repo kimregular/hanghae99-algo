@@ -1,29 +1,49 @@
 package p11399;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> arr = new ArrayList<>();
+        new Main().run();
+    }
+
+    private void run() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            int numOfDigits = Integer.parseInt(br.readLine());
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            while (st.hasMoreTokens()) {
-                arr.add(Integer.parseInt(st.nextToken()));
-            }
-            arr.sort(Comparator.naturalOrder());
 
-            int lastMinute = 0;
-            int totalMinute = 0;
-            for (Integer ints : arr) {
-                lastMinute += ints;
-                totalMinute += lastMinute;
-            }
+            Solution s = new Solution();
+            System.out.println(s.solution(readInput(br)));
 
-            System.out.println(totalMinute);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private int[] readInput(BufferedReader br) throws IOException {
+        int len = Integer.parseInt(br.readLine());
+        int[] result = new int[len];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < len; i++) {
+            result[i] = Integer.parseInt(st.nextToken());
+        }
+        return result;
+    }
+}
+
+class Solution {
+
+    public int solution(int[] times) {
+        Arrays.sort(times);
+
+        int cumulatedTime = 0;
+        int answer = 0;
+        for (int time : times) {
+            cumulatedTime += time;
+            answer += cumulatedTime;
+        }
+        return answer;
     }
 }
