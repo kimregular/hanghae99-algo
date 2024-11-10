@@ -1,45 +1,54 @@
 package p22864;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        new Main().run();
+    }
 
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            int m = Integer.parseInt(st.nextToken());
+    private void run() {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
 
             Solution s = new Solution();
-            System.out.println(s.solution(a, b, c, m));
+            System.out.println(s.solution(readInput(br)));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private int[] readInput(BufferedReader br) throws IOException {
+        return Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+    }
 }
 
 class Solution {
 
-    public int solution(int a, int b, int c, int m) {
-        int count = 0;
+    public int solution(int[] infos) {
+        int fatigue = infos[0];
+        int productivity = infos[1];
+        int rest = infos[2];
+        int limit = infos[3];
 
         int answer = 0;
-        int fatigue = 0;
+        int curFatigue = 0;
 
-        while (count != 24) {
-            if (fatigue + a <= m) {
-                fatigue += a;
-                answer += b;
+        int day = 24;
+        while (day-- > 0) {
+            if (curFatigue + fatigue <= limit) {
+                curFatigue += fatigue;
+                answer += productivity;
             } else {
-                fatigue -= c;
-                if(fatigue < 0) fatigue = 0;
+                curFatigue -= rest;
+                if (curFatigue < 0) {
+                    curFatigue = 0;
+                }
             }
-            count++;
         }
         return answer;
     }
