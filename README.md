@@ -52,6 +52,24 @@ private double getLength(int[] point1, int[] point2) {
 // 각 변의 길이 똑같아야하고
 // 각 대각선의 길이가 똑같아야한다.
 ```
+### 약수의 개수 구하기
+
+```java
+int number = 72;
+
+int getNumOfDivisor(int number) {
+    int result = 0;
+    for (int i = 1; i * i <= number; i++) {
+        if (i * i == number) result++;
+        else if (number % i == 0) result += 2;
+    }
+    return result;
+}
+
+System.out.println(getNumOfDivisor(number));
+
+// >> 12
+```
 
 ## 다시 풀기 리스트
 
